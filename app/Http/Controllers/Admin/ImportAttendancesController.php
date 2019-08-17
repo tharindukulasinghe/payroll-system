@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Controllers\Admin;
-
+use App\Imports\UsersImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
@@ -13,5 +13,12 @@ class ImportAttendancesController extends Controller
             return abort(401);
         }
         return view('admin.import_attendances.index');
+    }
+
+    public function import() 
+    {
+        Excel::import(new UsersImport, 'users.xlsx');
+        
+        return redirect('/')->with('success', 'All good!');
     }
 }
