@@ -4,6 +4,7 @@ use App\Imports\UsersImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
+use Excel;
 
 class ImportAttendancesController extends Controller
 {
@@ -17,7 +18,7 @@ class ImportAttendancesController extends Controller
 
     public function import() 
     {
-        Excel::import(new UsersImport, 'users.xlsx');
+        Excel::import(new UsersImport, request()->file('file'));
         
         return redirect('/')->with('success', 'All good!');
     }

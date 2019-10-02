@@ -15,13 +15,12 @@ class UsersImport implements ToModel
     public function model(array $row)
     {
         return new EmployeeAttendance([
-            
-        ]);
-
-        return new EmployeeAttendance([
             'user_id'     => $row[0],
-            'month'    => $row[1], 
-            'attendance' => $row[2],
+            'attendance' => $row[1],
+            'ot'        => $row[2],
+            'month'    => $row[3], 
+            'year'  => $row[4]
+
          ]);
     }
 }

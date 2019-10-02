@@ -1,9 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('quickadmin.import-attendance.title')</h3>
-    
-    <p>
-        {{ trans('quickadmin.qa_custom_controller_index') }} 
-    </p>
+    <h3 class="page-title">Import Attendence</h3>
+    @if(count($errors) > 0)
+    <div class="alert alert-danger">
+     Upload Validation Error<br><br>
+     <ul>
+      @foreach($errors->all() as $error)
+      <li>{{ $error }}</li>
+      @endforeach
+     </ul>
+    </div>
+   @endif
+    <div class="container">
+        <form action="/admin/import_attendances/import" enctype="multipart/form-data" method="post">
+            @csrf
+            <input type="file" name="file">
+            <input type="submit" value="upload">
+        </form>
+    </div>
 @stop
