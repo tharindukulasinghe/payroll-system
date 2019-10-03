@@ -15,11 +15,17 @@ class CreateEmployeeAttendancesTable extends Migration
     {
         Schema::create('employee_attendances', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('employee_id');
             $table->integer('attendance');
             $table->integer('ot');
+            $table->float('allowances', 8, 2);
+            $table->float('deductions', 8, 2);
+            $table->float('epf', 8, 2);
+            $table->float('etf', 8, 2);
+            $table->float('total', 8, 2);
             $table->integer('month');
             $table->integer('year');
+            $table->boolean('approved');
             $table->timestamps();
         });
     }
