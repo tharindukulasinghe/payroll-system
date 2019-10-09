@@ -75,7 +75,12 @@
                 </a>
             </li>@endcan
             
-
+            <li>
+                <a href="{{ route('admin.salaries.index') }}">
+                    <i class="fa fa-money"></i>
+                    <span>Salaries</span>
+                </a>
+            </li>
             
 
             
