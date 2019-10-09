@@ -28,6 +28,7 @@ class UsersImport implements ToModel
             'employee_id'     => $row[0],
             'attendance' => $row[1],
             'ot'        => $ot,
+            'ot_hours' => $row[2],
             'month'    => $row[3], 
             'year'  => $row[4],
             'approved' => false,
