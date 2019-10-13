@@ -13,4 +13,13 @@ class EmployeeAttendance extends Model
     {
         return $this->belongsTo(SalaryGroup::class);
     }
+
+    /**
+     * Get the 
+     */
+    public function employee()
+    {
+        return $this->hasOne(Employee::class, 'id','employee_id');
+
+    }
 }

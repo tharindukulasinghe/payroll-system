@@ -2,8 +2,8 @@
 
 @section('content')
     <h3 class="page-title">@lang('quickadmin.employees.title')</h3>
-    
-    {!! Form::model($employee, ['method' => 'PUT', 'route' => ['admin.employees.update', $employee->id]]) !!}
+
+    {!! Form::model($employee, ['method' => 'PUT', 'route' => ['admin.salaries.update', $employee->id]]) !!}
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -95,7 +95,7 @@
                     @endif
                 </div>
             </div>
-            
+
         </div>
     </div>
 
@@ -113,13 +113,13 @@
             moment.updateLocale('{{ App::getLocale() }}', {
                 week: { dow: 1 } // Monday is the first day of the week
             });
-            
+
             $('.date').datetimepicker({
                 format: "{{ config('app.date_format_moment') }}",
                 locale: "{{ App::getLocale() }}",
             });
-            
+
         });
     </script>
-            
+
 @stop

@@ -4,21 +4,21 @@
 @section('content')
     <h3 class="page-title">Monthly Salaries</h3>
 
-    <div class="container">
+    <div class="container  col-xs-4">
 
 
     <div class="panel panel-default">
     <div class="panel-heading">
             Generate Salaries
         </div>
-    
+
     <div class="panel-body">
 
     </div>
     <form>
 
     <div class="row">
-        <div class="col-xs-12 form-group">
+        <div class="form-group col-xs-12">
             <label for="exampleFormControlSelect1">Year</label>
             <select class="form-control" id="exampleFormControlSelect1">
                 <option>1995</option>
@@ -61,7 +61,7 @@
         </div>
     </div>
 
-  <div class="form-group">
+  <div class="form-group col-xs-12">
     <label for="exampleFormControlSelect2">Month</label>
     <select class="form-control" id="exampleFormControlSelect2">
       <option>1</option>
@@ -79,9 +79,9 @@
     </select>
   </div>
 </form>
-    </div>
-    </div>
-    <div class="panel panel-default">
+</div>
+</div>
+    <div class="panel panel-default col-xs-8">
         <div class="panel-heading">
             Salaries List
         </div>
@@ -90,13 +90,11 @@
             <table class="table table-bordered table-striped {{ count($salaries) > 0 ? 'datatable' : '' }}">
                 <thead>
                     <tr>
-                        <th>@lang('quickadmin.employees.fields.first-name')</th>
-                        <th>@lang('quickadmin.employees.fields.last-name')</th>
-                        <th>@lang('quickadmin.employees.fields.birthday')</th>
-                        <th>@lang('quickadmin.employees.fields.contact-no')</th>
-                        <th>@lang('quickadmin.employees.fields.employee-no')</th>
-                        <th>@lang('quickadmin.employees.fields.epf-no')</th>
-                        <th>@lang('quickadmin.employees.fields.salary-group')</th>
+                        <th>Employee Name</th>
+                        <th>Attended Dates</th>
+                        <th>OT Hours</th>
+                        <th>Salary</th>
+                        <th>Approved</th>
                         @if( request('show_deleted') == 1 )
                         <th>&nbsp;</th>
                         @else
@@ -104,62 +102,33 @@
                         @endif
                     </tr>
                 </thead>
-                
+
                 <tbody>
                     @if (count($salaries) > 0)
-                        @foreach ($salaries as $employee)
-                            <tr data-entry-id="{{ $employee->id }}">
-                                @can('employee_delete')
-                                    @if ( request('show_deleted') != 1 )<td></td>@endif
-                                @endcan
+                        @foreach ($salaries as $salary)
+                            <tr data-entry-id="{{ $salary->id }}">
 
-                                <td field-key='first_name'>{{ $employee->first_name }}</td>
-                                <td field-key='last_name'>{{ $employee->last_name }}</td>
-                                <td field-key='birthday'>{{ $employee->birthday }}</td>
-                                <td field-key='contact__no'>{{ $employee->contact__no }}</td>
-                                <td field-key='employee_no'>{{ $employee->employee_no }}</td>
-                                <td field-key='epf_no'>{{ $employee->epf_no }}</td>
-                                <td field-key='salary_group'>{{ $employee->salary_group->name ?? '' }}</td>
-                                @if( request('show_deleted') == 1 )
+
+                                <td field-key='first_name'>{{ $salary->employee->first_name }}</td>
+                                <td field-key='last_name'>{{ $salary->attendance }}</td>
+                                <td field-key='birthday'>{{ $salary->ot_hours }}</td>
+                                <td field-key='contact__no'>{{ $salary->total }}</td>
+                                <td field-key='employee_no'>{{ $salary->approved }}</td>
+
                                 <td>
-                                    @can('employee_delete')
-                                                                        {!! Form::open(array(
-                                        'style' => 'display: inline-block;',
-                                        'method' => 'POST',
-                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
-                                        'route' => ['admin.employees.restore', $employee->id])) !!}
-                                    {!! Form::submit(trans('quickadmin.qa_restore'), array('class' => 'btn btn-xs btn-success')) !!}
-                                    {!! Form::close() !!}
-                                @endcan
-                                    @can('employee_delete')
-                                                                        {!! Form::open(array(
-                                        'style' => 'display: inline-block;',
-                                        'method' => 'DELETE',
-                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
-                                        'route' => ['admin.employees.perma_del', $employee->id])) !!}
-                                    {!! Form::submit(trans('quickadmin.qa_permadel'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                    {!! Form::close() !!}
-                                @endcan
+                                    @if(!$salary->approved)
+                                    <a href="{{ route('admin.salaries.approve',[$salary->id]) }}" class="btn btn-xs btn-primary">Approve</a>
+
+                                    <a href="{{ route('admin.salaries.edit',[$salary->id]) }}" class="btn btn-xs btn-primary">Edit</a>
+
+                                    @else
+                                    <a href="{{ route('admin.salaries.approve',[$salary->id]) }}" class="btn btn-xs btn-primary disabled">Approve</a>
+
+                                    <a href="{{ route('admin.salaries.edit',[$salary->id]) }}" class="btn btn-xs btn-primary disabled">Edit</a>
+
+                                    @endif
                                 </td>
-                                @else
-                                <td>
-                                    @can('employee_view')
-                                    <a href="{{ route('admin.employees.show',[$employee->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>
-                                    @endcan
-                                    @can('employee_edit')
-                                    <a href="{{ route('admin.employees.edit',[$employee->id]) }}" class="btn btn-xs btn-info">@lang('quickadmin.qa_edit')</a>
-                                    @endcan
-                                    @can('employee_delete')
-{!! Form::open(array(
-                                        'style' => 'display: inline-block;',
-                                        'method' => 'DELETE',
-                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
-                                        'route' => ['admin.employees.destroy', $employee->id])) !!}
-                                    {!! Form::submit(trans('quickadmin.qa_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                    {!! Form::close() !!}
-                                    @endcan
-                                </td>
-                                @endif
+
                             </tr>
                         @endforeach
                     @else
@@ -173,7 +142,7 @@
     </div>
 @stop
 
-@section('javascript') 
+@section('javascript')
     <script>
         @can('employee_delete')
             @if ( request('show_deleted') != 1 ) window.route_mass_crud_entries_destroy = '{{ route('admin.employees.mass_destroy') }}'; @endif

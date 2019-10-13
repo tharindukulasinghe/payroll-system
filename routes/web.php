@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::post('employee_funds_restore/{id}', ['uses' => 'Admin\EmployeeFundsController@restore', 'as' => 'employee_funds.restore']);
     Route::delete('employee_funds_perma_del/{id}', ['uses' => 'Admin\EmployeeFundsController@perma_del', 'as' => 'employee_funds.perma_del']);
     Route::resource('salaries', 'Admin\SalaryController');
+    Route::get('salaries/approve/{id}',['uses' => 'Admin\SalaryController@approve', 'as' => 'salaries.approve']);
 
 
 
